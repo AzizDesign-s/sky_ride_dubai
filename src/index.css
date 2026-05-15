@@ -1,0 +1,93 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  background-color: #050a14;
+  color: #ffffff;
+  font-family: "Inter", sans-serif;
+  overflow-x: hidden;
+  /* Center the mobile frame on desktop */
+  display: flex;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+#root {
+  width: 100%;
+  max-width: 412px;
+  min-height: 100vh;
+  position: relative;
+  overflow: hidden;
+  background-color: #050a14;
+}
+
+/* Hide scrollbar everywhere */
+::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
+/* Glassmorphism utility */
+.glass {
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Glow text utility */
+.text-glow {
+  text-shadow: 0 0 20px rgba(0, 212, 255, 0.6);
+}
+
+/* Nol card shine overlay */
+.card-shine {
+  position: relative;
+  overflow: hidden;
+}
+.card-shine::after {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -60%;
+  width: 40%;
+  height: 200%;
+  background: linear-gradient(
+    to right,
+    transparent,
+    rgba(255, 255, 255, 0.08),
+    transparent
+  );
+  transform: skewX(-20deg);
+  pointer-events: none;
+}
+
+/* Desktop: show mobile frame centered with dark surround */
+@media (min-width: 500px) {
+  body {
+    background-color: #020608;
+    background-image: radial-gradient(
+      ellipse at 50% 20%,
+      rgba(0, 212, 255, 0.06) 0%,
+      transparent 60%
+    );
+    align-items: flex-start;
+    padding: 0;
+  }
+
+  #root {
+    box-shadow:
+      0 0 0 1px rgba(0, 212, 255, 0.12),
+      0 32px 80px rgba(0, 0, 0, 0.8);
+    border-left: 1px solid rgba(0, 212, 255, 0.08);
+    border-right: 1px solid rgba(0, 212, 255, 0.08);
+  }
+}
