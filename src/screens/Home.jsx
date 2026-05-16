@@ -64,7 +64,7 @@ const Home = ({ navigate }) => {
   };
   return (
     <div className="relative flex flex-col min-h-screen bg-sky-bg">
-      <BackdropHero height={280} />
+      <BackdropHero height={280} isActive={true} />
 
       {/* Header */}
       <motion.div

@@ -18,6 +18,7 @@ import taxi from "../assets/taxi.png";
 export default function BackdropHero({
   height = 280,
   glowColor = "rgba(0,82,201,0.40)",
+  isActive = false,
 }) {
   return (
     <div
@@ -75,7 +76,7 @@ export default function BackdropHero({
         <img
           src={taxi}
           alt="Air Taxi"
-          className="object-cover w-80 h-auto absolute z-30"
+          className={` ${isActive ? "object-cover w-80 h-auto absolute z-30" : "hidden"} `}
         />
         <div className="bg-[rgba(0,82,201,0.30)] blur-3xl  w-80 h-52" />
       </div>
