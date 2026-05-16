@@ -21,6 +21,7 @@ export default {
           text: "#FFFFFF",
           muted: "#6B7F96",
           subtle: "#1E3048",
+          secondText: "rgb(255,255,255,0.4)",
         },
         nol: {
           silver: "#C8D6DF",
