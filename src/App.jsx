@@ -15,6 +15,8 @@ import AddNolCardScreen from "./screens/AddNol";
 import CardSuccessScreen from "./screens/CardSuccess";
 import ProfileScreen from "./screens/Profile";
 
+import { nolCards } from "./data/mockData";
+
 // Screens where Bottom Nav is shown
 const BOTTOM_NAV_SCREENS = ["home", "myTrips", "myCards", "profile"];
 
@@ -58,9 +60,17 @@ export default function App() {
     selectedNolCard: null,
   });
 
+  const [cards, setCards] = useState(nolCards);
+
   const navigate = (to, data = {}) => {
     setRideData((prev) => ({ ...prev, ...data }));
     setScreen(to);
+  };
+
+  const updateDefaultCard = (selectedCard) => {
+    setCards((prev) =>
+      prev.map((c) => ({ ...c, isDefault: c.id === selectedCard.id })),
+    );
   };
 
   const ActiveScreen = SCREENS[screen];
@@ -78,7 +88,12 @@ export default function App() {
           exit="exit"
           className="w-full min-h-screen"
         >
-          <ActiveScreen navigate={navigate} rideData={rideData} />
+          <ActiveScreen
+            navigate={navigate}
+            rideData={rideData}
+            cards={cards}
+            updateDefaultCard={updateDefaultCard}
+          />
         </motion.div>
       </AnimatePresence>
 

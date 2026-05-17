@@ -17,7 +17,7 @@ import { IoCheckmarkCircle } from "react-icons/io5";
 // Card theme per type
 const THEMES = {
   Silver: {
-    gradient: "linear-gradient(135deg, #3D4F5C 0%, #6E8A9A 45%, #B0C4CF 100%)",
+    gradient: "rgba(179,179,179,0.20)",
     labelColor: "rgba(255,255,255,0.55)",
     valueColor: "#ffffff",
     badgeBg: "rgba(255,255,255,0.18)",
@@ -27,7 +27,7 @@ const THEMES = {
     logoOpacity: 0.25,
   },
   Gold: {
-    gradient: "linear-gradient(135deg, #6B4A00 0%, #B8860B 45%, #FFD700 100%)",
+    gradient: "rgba(205,158,57,0.20)",
     labelColor: "rgba(255,240,180,0.65)",
     valueColor: "#fff8e0",
     badgeBg: "rgba(255,255,255,0.18)",
@@ -37,7 +37,7 @@ const THEMES = {
     logoOpacity: 0.3,
   },
   Platinum: {
-    gradient: "linear-gradient(135deg, #4A5260 0%, #8A9298 45%, #D8DEE2 100%)",
+    gradient: "rgba(57,92,205,0.20)",
     labelColor: "rgba(255,255,255,0.55)",
     valueColor: "#ffffff",
     badgeBg: "rgba(255,255,255,0.18)",
@@ -61,14 +61,10 @@ export default function NolCard({
     <motion.div
       whileTap={onSelect ? { scale: 0.97 } : {}}
       onClick={() => onSelect?.(card)}
-      className="relative w-full rounded-3xl overflow-hidden cursor-pointer select-none"
+      className="relative w-full rounded-3xl overflow-hidden cursor-pointer select-none backdrop-blur-[5px]"
       style={{
         height,
         background: theme.gradient,
-        boxShadow: isSelected
-          ? `0 0 0 2.5px white, 0 8px 32px ${theme.glowColor}`
-          : `0 8px 28px ${theme.glowColor}`,
-        transition: "box-shadow 0.25s ease",
       }}
       animate={isSelected ? { scale: 1.02 } : { scale: 1 }}
       transition={{ duration: 0.2 }}
@@ -136,13 +132,6 @@ export default function NolCard({
           </div>
 
           {/* Chip icon */}
-          <div
-            className="w-10 h-8 rounded-md"
-            style={{
-              background: theme.chipColor,
-              border: "1px solid rgba(255,255,255,0.2)",
-            }}
-          />
 
           {/* Bottom — card number + balance */}
           <div>
@@ -237,7 +226,7 @@ export default function NolCard({
             className="w-7 h-7 rounded-full flex items-center justify-center"
             style={{ background: "rgba(255,255,255,0.95)" }}
           >
-            <IoCheckmarkCircle size={20} style={{ color: "#050A14" }} />
+            <IoCheckmarkCircle size={20} className="text-sky-accent" />
           </div>
         </motion.div>
       )}
