@@ -14,6 +14,7 @@ import MyNolCardsScreen from "./screens/MyNolCard";
 import AddNolCardScreen from "./screens/AddNol";
 import CardSuccessScreen from "./screens/CardSuccess";
 import ProfileScreen from "./screens/Profile";
+import TopUpScreen from "./screens/TopUpScreen";
 
 import { nolCards } from "./data/mockData";
 
@@ -39,6 +40,7 @@ const SCREENS = {
   addCard: AddNolCardScreen,
   cardSuccess: CardSuccessScreen,
   profile: ProfileScreen,
+  topUp: TopUpScreen,
 };
 
 const pageVariants = {
@@ -73,6 +75,42 @@ export default function App() {
     );
   };
 
+  // Add alongside updateDefaultCard
+  const addCard = (newCard) => {
+    setCards((prev) => [...prev, newCard]);
+  };
+
+  // Add this
+  const deleteCard = (cardToDelete) => {
+    setCards((prev) => {
+      const remaining = prev.filter((c) => c.id !== cardToDelete.id);
+      // If deleted card was default, make first remaining card default
+      if (cardToDelete.isDefault && remaining.length > 0) {
+        remaining[0].isDefault = true;
+      }
+      return remaining;
+    });
+  };
+
+  // 1. Add transactions state
+  const [transactions, setTransactions] = useState([]);
+
+  // 2. Add topUpCard function
+  const topUpCard = (cardId, amount) => {
+    setCards((prev) =>
+      prev.map((c) =>
+        c.id === cardId
+          ? { ...c, balance: parseFloat((c.balance + amount).toFixed(2)) }
+          : c,
+      ),
+    );
+  };
+
+  // 3. Add addTransaction function
+  const addTransaction = (txn) => {
+    setTransactions((prev) => [txn, ...prev]); // newest first
+  };
+
   const ActiveScreen = SCREENS[screen];
   const showBottomNav = BOTTOM_NAV_SCREENS.includes(screen);
 
@@ -93,6 +131,11 @@ export default function App() {
             rideData={rideData}
             cards={cards}
             updateDefaultCard={updateDefaultCard}
+            addCard={addCard}
+            deleteCard={deleteCard}
+            topUpCard={topUpCard} // ← add
+            addTransaction={addTransaction}
+            transactions={transactions}
           />
         </motion.div>
       </AnimatePresence>
