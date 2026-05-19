@@ -4,22 +4,22 @@ import { IoAddOutline } from "react-icons/io5";
 
 import BackdropHero from "../components/BackdropHero";
 import NolCard from "../components/NolCard";
-import NolCardActions from "../components/NolCardAction";
+import NolCardActions from "../components//NolCardAction";
 import Button from "../components/Button";
 import { currentUser } from "../data/mockData";
 
-const LONG_PRESS_MS = 550; // how long to hold before sheet opens
+const LONG_PRESS_MS = 550;
 
-export default function MyNolCard({
+export default function MyNolCardsScreen({
   navigate,
   cards,
   updateDefaultCard,
   deleteCard,
 }) {
-  const [activeCard, setActiveCard] = useState(null); // card showing bottom sheet
+  const [activeCard, setActiveCard] = useState(null);
   const longPressTimer = useRef(null);
 
-  // ── Long press handlers ──────────────────────────────────
+  // ── Long press ───────────────────────────────────────────
 
   const startPress = (card) => {
     longPressTimer.current = setTimeout(() => {
@@ -31,23 +31,19 @@ export default function MyNolCard({
     clearTimeout(longPressTimer.current);
   };
 
-  // Short tap — set default
+  // Short tap — set as default
   const handleTap = (card) => {
     clearTimeout(longPressTimer.current);
     updateDefaultCard(card);
   };
 
-  // ── Actions ──────────────────────────────────────────────
-
+  // Delete — called from NolCardActions
   const handleDelete = (card) => {
     deleteCard(card);
     setActiveCard(null);
   };
 
-  const handleTopUp = (card) => {
-    // TODO: navigate to top up screen when built
-    setActiveCard(null);
-  };
+  // ── Render ───────────────────────────────────────────────
 
   return (
     <div className="relative flex flex-col min-h-screen bg-sky-bg">
@@ -77,8 +73,6 @@ export default function MyNolCard({
           {(cards || []).length} card{(cards || []).length !== 1 ? "s" : ""} ·{" "}
           {currentUser.name}
         </p>
-
-        {/* Long press hint */}
         <p
           className="font-inter text-[11px] mt-1"
           style={{ color: "rgba(255,255,255,0.2)" }}
@@ -101,18 +95,18 @@ export default function MyNolCard({
               {/* Long press wrapper */}
               <div
                 onMouseDown={() => startPress(card)}
-                onMouseUp={() => cancelPress()}
-                onMouseLeave={() => cancelPress()}
+                onMouseUp={cancelPress}
+                onMouseLeave={cancelPress}
                 onTouchStart={() => startPress(card)}
-                onTouchEnd={() => cancelPress()}
-                onTouchMove={() => cancelPress()}
+                onTouchEnd={cancelPress}
+                onTouchMove={cancelPress}
                 onClick={() => handleTap(card)}
                 className="cursor-pointer select-none"
               >
                 <NolCard
                   card={card}
                   isSelected={card.isDefault}
-                  onSelect={null} // handled by wrapper above
+                  onSelect={null}
                 />
               </div>
 
@@ -214,13 +208,13 @@ export default function MyNolCard({
       {/* Bottom nav spacer */}
       <div className="h-32" />
 
-      {/* 5. Card actions bottom sheet */}
+      {/* 5. NolCardActions bottom sheet */}
       {activeCard && (
         <NolCardActions
           card={activeCard}
           onClose={() => setActiveCard(null)}
           onDelete={handleDelete}
-          onTopUp={handleTopUp}
+          navigate={navigate}
         />
       )}
     </div>
