@@ -111,6 +111,14 @@ export default function App() {
     setTransactions((prev) => [txn, ...prev]); // newest first
   };
 
+  // Add trips state (already have transactions — trips are a subset)
+  const [trips, setTrips] = useState([]);
+
+  // Add trip when boarding pass is confirmed
+  const addTrip = (tripRecord) => {
+    setTrips((prev) => [tripRecord, ...prev]); // newest first
+  };
+
   const ActiveScreen = SCREENS[screen];
   const showBottomNav = BOTTOM_NAV_SCREENS.includes(screen);
 
@@ -136,6 +144,8 @@ export default function App() {
             topUpCard={topUpCard} // ← add
             addTransaction={addTransaction}
             transactions={transactions}
+            trips={trips}
+            addTrip={addTrip}
           />
         </motion.div>
       </AnimatePresence>

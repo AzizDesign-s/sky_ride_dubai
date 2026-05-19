@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import {
   IoCheckmarkCircle,
@@ -125,41 +125,46 @@ function TearLine() {
 
 // ─── Boarding Pass Screen ─────────────────────────────────
 
-export default function BoardingPassScreen({ navigate, rideData }) {
+export default function BoardingPassScreen({ navigate, rideData, addTrip }) {
   const { from, to, selectedRoute, selectedNolCard, totalFare } =
     rideData || {};
 
   // Generated once on mount — stable for the lifetime of this screen
-  const [tripId] = useState(() => generateTripId(from, selectedNolCard));
+  const [boardingData] = useState(() => {
+    const id = generateTripId(from, selectedNolCard);
 
-  const [qrPayload] = useState(() =>
-    generateQRPayload({
-      tripId: generateTripId(from, selectedNolCard),
+    const payload = generateQRPayload({
+      tripId: id,
       card: selectedNolCard,
       from,
       to,
       route: selectedRoute,
       totalFare,
-    }),
-  );
+    });
 
-  // Future history record — ready to save when history screen is built
-  const [tripRecord] = useState(() =>
-    buildTripRecord({
-      tripId: generateTripId(from, selectedNolCard),
+    const record = buildTripRecord({
+      tripId: id,
       from,
       to,
       route: selectedRoute,
       card: selectedNolCard,
       totalFare,
-    }),
-  );
+    });
+
+    return { tripId: id, qrPayload: payload, tripRecord: record };
+  });
+
+  const { tripId, qrPayload, tripRecord } = boardingData;
 
   const countdown = useCountdown(12);
 
-  // Log trip record — remove when history screen is built
+  const tripSaved = useRef(false);
+
   useEffect(() => {
-    console.log("Trip record ready to save:", tripRecord);
+    if (tripSaved.current) return; // ← guard against double save
+    tripSaved.current = true;
+    addTrip?.(tripRecord);
+    console.log("Trip saved:", tripRecord);
   }, []);
 
   return (

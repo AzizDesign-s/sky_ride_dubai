@@ -45,14 +45,7 @@ export default function NolCardActions({ card, onClose, onDelete, navigate }) {
 
   return (
     <AnimatePresence>
-      <motion.div
-        className="fixed inset-0 z-50 flex flex-col justify-end"
-        style={{
-          maxWidth: "412px",
-          left: "50%",
-          transform: "translateX(-50%)",
-        }}
-      >
+      <motion.div className="fixed inset-0 z-50 flex left-1/2 -translate-x-1/2 flex-col justify-end w-full ">
         {/* Backdrop */}
         <motion.div
           initial={{ opacity: 0 }}
@@ -60,7 +53,7 @@ export default function NolCardActions({ card, onClose, onDelete, navigate }) {
           exit={{ opacity: 0 }}
           transition={{ duration: 0.2 }}
           onClick={handleClose}
-          className="absolute inset-0"
+          className="absolute inset-0 "
           style={{ background: "rgba(0,0,0,0.7)", backdropFilter: "blur(4px)" }}
         />
 
@@ -70,7 +63,7 @@ export default function NolCardActions({ card, onClose, onDelete, navigate }) {
           animate={{ y: 0 }}
           exit={{ y: "100%" }}
           transition={{ type: "spring", stiffness: 300, damping: 30 }}
-          className="relative z-10 rounded-t-3xl overflow-hidden pb-8"
+          className="relative z-10 rounded-t-3xl overflow-hidden pb-32 mx-4 "
           style={{
             background: "#0D1626",
             border: "1px solid rgba(255,255,255,0.08)",
