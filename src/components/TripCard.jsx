@@ -44,7 +44,7 @@ function formatDate(iso) {
   );
 }
 
-export default function TripCard({ trip, onPress }) {
+export default function TripCard({ trip, onPress, navigate }) {
   const colors = CARD_COLORS[trip?.card?.type] || CARD_COLORS.Silver;
 
   return (

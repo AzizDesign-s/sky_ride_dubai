@@ -15,6 +15,7 @@ import AddNolCardScreen from "./screens/AddNol";
 import CardSuccessScreen from "./screens/CardSuccess";
 import ProfileScreen from "./screens/Profile";
 import TopUpScreen from "./screens/TopUpScreen";
+import TripDetail from "./screens/TripDetails";
 
 import { nolCards } from "./data/mockData";
 
@@ -41,6 +42,7 @@ const SCREENS = {
   cardSuccess: CardSuccessScreen,
   profile: ProfileScreen,
   topUp: TopUpScreen,
+  tripdetail: TripDetail,
 };
 
 const pageVariants = {
@@ -119,6 +121,25 @@ export default function App() {
     setTrips((prev) => [tripRecord, ...prev]); // newest first
   };
 
+  const payTrip = ({ tripId, cardId, amount, transaction }) => {
+    // Deduct from card balance
+    setCards((prev) =>
+      prev.map((c) =>
+        c.id === cardId
+          ? { ...c, balance: parseFloat((c.balance - amount).toFixed(2)) }
+          : c,
+      ),
+    );
+    // Mark trip as completed
+    setTrips((prev) =>
+      prev.map((t) =>
+        t.tripId === tripId ? { ...t, status: "completed" } : t,
+      ),
+    );
+    // Save transaction
+    addTransaction(transaction);
+  };
+
   const ActiveScreen = SCREENS[screen];
   const showBottomNav = BOTTOM_NAV_SCREENS.includes(screen);
 
@@ -146,6 +167,7 @@ export default function App() {
             transactions={transactions}
             trips={trips}
             addTrip={addTrip}
+            payTrip={payTrip}
           />
         </motion.div>
       </AnimatePresence>

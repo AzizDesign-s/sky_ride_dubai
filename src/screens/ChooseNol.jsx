@@ -32,7 +32,7 @@ export default function ChooseNolCardScreen({ navigate, rideData, cards }) {
       </div>
 
       {/* 4. Nol card list */}
-      <div className="relative z-10 flex flex-col mt-4 gap-4 px-4">
+      <div className="relative z-10 flex flex-col mt-4 gap-4 px-4 pb-10">
         {cards.map((card, i) => (
           <motion.div
             key={card.id}
@@ -67,7 +67,7 @@ export default function ChooseNolCardScreen({ navigate, rideData, cards }) {
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.6 }}
-        className="fixed z-10 px-4 mt-3 pb-10 flex flex-col gap-3 bottom-0"
+        className=" z-10 px-4 mt-3 pb-10 flex flex-col gap-3 "
       >
         <Button
           label="Add New Nol Card"

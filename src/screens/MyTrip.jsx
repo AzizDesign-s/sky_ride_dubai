@@ -125,9 +125,7 @@ export default function MyTripsScreen({ navigate, trips }) {
   };
 
   const handleTripPress = (trip) => {
-    // TODO: navigate to trip detail screen when built
-    // navigate('tripDetail', { trip })
-    console.log("Trip pressed:", trip.tripId);
+    navigate("tripdetail", { selectedTrip: trip });
   };
 
   // ── Render ───────────────────────────────────────────────
