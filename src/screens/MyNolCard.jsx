@@ -4,8 +4,10 @@ import { IoAddOutline } from "react-icons/io5";
 
 import BackdropHero from "../components/BackdropHero";
 import NolCard from "../components/NolCard";
-import NolCardActions from "../components//NolCardAction";
+import NolCardActions from "../components/NolCardAction";
 import Button from "../components/Button";
+import PageTopBar from "../components/PageTopBar";
+import SearchBar from "../components/SearchBar";
 import { currentUser } from "../data/mockData";
 
 const LONG_PRESS_MS = 550;
@@ -50,36 +52,15 @@ export default function MyNolCardsScreen({
       {/* 1. Backdrop */}
       <BackdropHero height={180} />
 
-      {/* 2. Page title */}
-      <motion.div
-        initial={{ opacity: 0, y: -10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4 }}
-        className="relative z-10 px-5 pt-14 pb-2"
-      >
-        <p
-          className="font-inter text-[12px] uppercase tracking-[2.5px] mb-1"
-          style={{ color: "rgba(0,212,255,0.6)" }}
-        >
-          My Wallet
-        </p>
-        <h1 className="font-syne font-extrabold text-[26px] text-white leading-tight">
-          Nol Cards
-        </h1>
-        <p
-          className="font-inter text-[13px] mt-1"
-          style={{ color: "rgba(255,255,255,0.4)" }}
-        >
-          {(cards || []).length} card{(cards || []).length !== 1 ? "s" : ""} ·{" "}
-          {currentUser.name}
-        </p>
-        <p
-          className="font-inter text-[11px] mt-1"
-          style={{ color: "rgba(255,255,255,0.2)" }}
-        >
-          Hold a card for more options
-        </p>
-      </motion.div>
+      {/* 2. Page top bar */}
+      <div className="relative z-10">
+        <PageTopBar
+          eyebrow="My Wallet"
+          title="Nol Cards"
+          text="Tap to set default · Hold for more options"
+          subtitle={`${(cards || []).length} card${(cards || []).length !== 1 ? "s" : ""} · ${currentUser.name}`}
+        />
+      </div>
 
       {/* 3. Cards list */}
       <div className="relative z-10 flex flex-col gap-4 px-4 mt-4">

@@ -8,6 +8,8 @@ import {
 
 import BackdropHero from "../components/BackdropHero";
 import TripCard from "../components/TripCard";
+import PageTopBar from "../components/PageTopBar";
+import SearchBar from "../components/SearchBar";
 
 // ─── Mock trips — shown when no real trips exist yet ─────
 // Once user books real rides, these get replaced by App state trips
@@ -80,42 +82,52 @@ const FILTER_COLORS = {
   Platinum: "#D8DEE2",
 };
 
+// Search icon button — passed as right slot to PageTopBar
+function SearchIconButton({ onPress }) {
+  return (
+    <motion.button
+      whileTap={{ scale: 0.88 }}
+      onClick={onPress}
+      className="w-11 h-11 rounded-2xl flex items-center justify-center"
+      style={{
+        background: "rgba(255,255,255,0.05)",
+        border: "1px solid rgba(255,255,255,0.1)",
+      }}
+    >
+      <IoSearchOutline size={20} color="white" />
+    </motion.button>
+  );
+}
+
 export default function MyTripsScreen({ navigate, trips }) {
   const [activeFilter, setActiveFilter] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [showSearch, setShowSearch] = useState(false);
 
-  // Use real trips from App state if available, else mock data
   const allTrips = trips && trips.length > 0 ? trips : MOCK_TRIPS;
 
-  // ── Filter + Search ──────────────────────────────────────
   const filteredTrips = useMemo(() => {
     let result = [...allTrips];
-
-    // Filter by card type
     if (activeFilter !== "all") {
       result = result.filter((t) => t.card?.type === activeFilter);
     }
-
-    // Search by trip ID
     if (searchQuery.trim()) {
       result = result.filter((t) =>
         t.tripId?.toLowerCase().includes(searchQuery.toLowerCase().trim()),
       );
     }
-
     return result;
   }, [allTrips, activeFilter, searchQuery]);
+
+  const handleClearSearch = () => {
+    setSearchQuery("");
+    setShowSearch(false);
+  };
 
   const handleTripPress = (trip) => {
     // TODO: navigate to trip detail screen when built
     // navigate('tripDetail', { trip })
     console.log("Trip pressed:", trip.tripId);
-  };
-
-  const handleClearSearch = () => {
-    setSearchQuery("");
-    setShowSearch(false);
   };
 
   // ── Render ───────────────────────────────────────────────
@@ -125,105 +137,44 @@ export default function MyTripsScreen({ navigate, trips }) {
       {/* 1. Backdrop */}
       <BackdropHero height={180} />
 
-      {/* 2. Top section */}
-      <div className="relative z-10 px-5 pt-14 pb-2">
+      {/* 2. Header — switches between TopBar and SearchBar */}
+      <div className="relative z-10">
         <AnimatePresence mode="wait">
-          {/* Normal header */}
+          {/* Normal top bar */}
           {!showSearch && (
             <motion.div
-              key="header"
-              initial={{ opacity: 0, y: -8 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -8 }}
-              transition={{ duration: 0.2 }}
-              className="flex items-end justify-between"
+              key="topbar"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.15 }}
             >
-              <div>
-                <p
-                  className="font-inter text-[12px] uppercase tracking-[2.5px] mb-1"
-                  style={{ color: "rgba(0,212,255,0.6)" }}
-                >
-                  History
-                </p>
-                <h1 className="font-syne font-extrabold text-[26px] text-white leading-tight">
-                  My Trips
-                </h1>
-                <p
-                  className="font-inter text-[13px] mt-1"
-                  style={{ color: "rgba(255,255,255,0.4)" }}
-                >
-                  {allTrips.length} trip{allTrips.length !== 1 ? "s" : ""} total
-                </p>
-              </div>
-
-              {/* Search icon */}
-              <motion.button
-                whileTap={{ scale: 0.88 }}
-                onClick={() => setShowSearch(true)}
-                className="w-11 h-11 rounded-2xl flex items-center justify-center mb-1"
-                style={{
-                  background: "rgba(255,255,255,0.05)",
-                  border: "1px solid rgba(255,255,255,0.1)",
-                }}
-              >
-                <IoSearchOutline size={20} color="white" />
-              </motion.button>
+              <PageTopBar
+                eyebrow="History"
+                title="My Trips"
+                text="Tap a trip to view full details"
+                subtitle={`${allTrips.length} trip${allTrips.length !== 1 ? "s" : ""} total`}
+                right={<SearchIconButton onPress={() => setShowSearch(true)} />}
+              />
             </motion.div>
           )}
 
           {/* Search bar */}
           {showSearch && (
             <motion.div
-              key="search"
-              initial={{ opacity: 0, y: -8 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -8 }}
-              transition={{ duration: 0.2 }}
-              className="flex items-center gap-3"
+              key="searchbar"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.15 }}
+              className="pt-14"
             >
-              <div
-                className="flex-1 flex items-center gap-2 px-4 rounded-2xl"
-                style={{
-                  background: "rgba(0,212,255,0.06)",
-                  border: "1.5px solid rgba(0,212,255,0.3)",
-                  height: "48px",
-                }}
-              >
-                <IoSearchOutline
-                  size={16}
-                  style={{ color: "rgba(0,212,255,0.6)", flexShrink: 0 }}
-                />
-                <input
-                  autoFocus
-                  type="text"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="Search by Trip ID..."
-                  className="flex-1 bg-transparent font-inter text-[14px] text-white outline-none"
-                  style={{ caretColor: "#00D4FF" }}
-                />
-                {searchQuery && (
-                  <motion.button
-                    whileTap={{ scale: 0.88 }}
-                    onClick={() => setSearchQuery("")}
-                  >
-                    <IoCloseOutline
-                      size={18}
-                      style={{ color: "rgba(255,255,255,0.4)" }}
-                    />
-                  </motion.button>
-                )}
-              </div>
-
-              {/* Cancel */}
-              <motion.button
-                whileTap={{ scale: 0.92 }}
-                onClick={handleClearSearch}
-                className="font-inter text-[13px]"
-                style={{ color: "rgba(0,212,255,0.7)", whiteSpace: "nowrap" }}
-              >
-                Cancel
-              </motion.button>
+              <SearchBar
+                value={searchQuery}
+                onChange={setSearchQuery}
+                onCancel={handleClearSearch}
+                placeholder="Search by Trip ID..."
+              />
             </motion.div>
           )}
         </AnimatePresence>
