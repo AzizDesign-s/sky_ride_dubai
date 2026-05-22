@@ -16,6 +16,8 @@ import CardSuccessScreen from "./screens/CardSuccess";
 import ProfileScreen from "./screens/Profile";
 import TopUpScreen from "./screens/TopUpScreen";
 import TripDetail from "./screens/TripDetails";
+import PersonalInfoScreen from "./screens/PersonalInfoScreen";
+import PaymentHistoryScreen from "./screens/PaymentHistory";
 
 import { nolCards } from "./data/mockData";
 
@@ -43,6 +45,8 @@ const SCREENS = {
   profile: ProfileScreen,
   topUp: TopUpScreen,
   tripdetail: TripDetail,
+  personalInfo: PersonalInfoScreen,
+  paymentHistory: PaymentHistoryScreen,
 };
 
 const pageVariants = {

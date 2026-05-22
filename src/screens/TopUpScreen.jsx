@@ -170,7 +170,7 @@ export default function TopUpScreen({
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -20 }}
             transition={{ duration: 0.25 }}
-            className="relative z-10 flex flex-col gap-5 px-4 pb-36 overflow-y-auto"
+            className="relative z-10 flex flex-col gap-5 px-4 pb-7 overflow-y-auto"
           >
             {/* Card being topped up */}
             {card && (
@@ -568,9 +568,8 @@ export default function TopUpScreen({
             animate={{ y: 0 }}
             exit={{ y: 80 }}
             transition={{ duration: 0.3 }}
-            className="fixed bottom-0 left-1/2 -translate-x-1/2 z-50 w-full px-4 pb-8 pt-4"
+            className="w-full px-4 pb-8 pt-4"
             style={{
-              maxWidth: "412px",
               background:
                 "linear-gradient(to top, rgba(5,10,20,1) 70%, transparent)",
             }}

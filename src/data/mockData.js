@@ -104,7 +104,8 @@ export const nolCardThemes = {
 export const currentUser = {
   name: "Abdul Aziz",
   email: "aziaji46@gmail.com",
-  website: "azizdesigns.framer.ai",
+  website: "https://azizdesigns.framer.ai",
   phone: "+971 54 380 4098",
+  emiratesId: "784-1990-1234567-1",
   avatar: null,
 };
