@@ -3,7 +3,7 @@
 # 🚁 SkyRide Dubai
 ### Smart Urban Air Mobility — Futuristic Flying Taxi Experience
 
-[Live Demo](https://skyride-dubai.vercel.app) · [Designer](https://azizdesigns.framer.ai)
+[Live Demo](https://sky-ride-dubai.vercel.app/) · [Designer](https://azizdesigns.framer.ai)
 
 </div>
 
